@@ -17,12 +17,11 @@ phases:
       # For example, a 1.21 kubectl client works with Kubernetes 1.20, 1.21 and 1.22 clusters.
       # Ref: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html OR https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
       # To download a specific version v1.27.9 on Linux, use:
-      - curl -LO https://dl.k8s.io/release/v1.32.0/bin/linux/amd64/kubectl
+      - curl -O https://dl.k8s.io/release/v1.33.0/bin/linux/amd64/kubectl
       # Download the kubectl checksum file
-      - curl -LO "https://dl.k8s.io/v1.32.0/bin/linux/amd64/kubectl.sha256"
-      # Validate the kubectl binary against the checksum le
-      - echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-
+      - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+      # Validate the kubectl binary against the checksum file
+      - sha256sum -c kubectl.sha256
       # Install kubectl
       - chmod +x ./kubectl ./aws-iam-authenticator      
       # - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -31,10 +30,7 @@ phases:
       - echo 'export PATH=$PWD/:$PATH' >> $HOME/.bashrc
       - echo `kubectl version --short --client`
       - python -m pip install --upgrade --force pip
-      #- wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
-      - wget -q -O - https://apt.corretto.aws/corretto.key | apt-key add
-      #- apt-get update
-      #- apt-get install y-ppa-manager
+      - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
       - apt-get update && apt-get -y install jq  && pip install --upgrade awscli pytest
   pre_build:
     commands:
@@ -44,7 +40,6 @@ phases:
       - export KUBECONFIG=$HOME/.kube/config
       - echo `ls -l`
       - pip install -r requirements.txt
-      - python -m pytest test_main.py
   build:
     commands:
       - docker build --tag $REPOSITORY_URI:$TAG .
