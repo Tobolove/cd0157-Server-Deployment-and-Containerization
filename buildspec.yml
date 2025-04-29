@@ -33,8 +33,8 @@ phases:
       - python -m pip install --upgrade --force pip
       #- wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
       - wget -q -O - https://apt.corretto.aws/corretto.key | apt-key add
-      - apt-get update
-      - apt-get install y-ppa-manager
+      #- apt-get update
+      #- apt-get install y-ppa-manager
       - apt-get update && apt-get -y install jq  && pip install --upgrade awscli pytest
   pre_build:
     commands:
