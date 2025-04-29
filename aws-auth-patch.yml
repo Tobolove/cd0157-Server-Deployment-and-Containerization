@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: aws-auth         # Name der ConfigMap
-  namespace: kube-system  # Namespace der ConfigMap
+  name: aws-auth         
+  namespace: kube-system  
 data:
   mapRoles: |
     - groups:
@@ -11,6 +11,6 @@ data:
       rolearn: arn:aws:iam::547641599748:role/eksctl-simple-jwt-api-nodegroup-ng-NodeInstanceRole-Rc2Uec9Jn7PD
       username: system:node:{{EC2PrivateDNSName}}
     - groups:
-      - system:masters  # Gibt der Rolle Admin-Rechte im Cluster
-      rolearn: arn:aws:iam::547641599748:role/UdacityFlaskDeployCBKubectlRole # Die Rolle aus Ihrer buildspec.yml
-      username: build   # Ein interner Kubernetes-Username für diese Zuordnung
+      - system:masters  
+      rolearn: arn:aws:iam::547641599748:role/UdacityFlaskDeployCBKubectlRole 
+      username: build   
