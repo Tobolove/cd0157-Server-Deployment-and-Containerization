@@ -31,7 +31,7 @@ phases:
       - echo 'export PATH=$PWD/:$PATH' >> $HOME/.bashrc
       - echo `kubectl version --short --client`
       - python -m pip install --upgrade --force pip
-      - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
+      #- wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
       - wget -q -O - https://apt.corretto.aws/corretto.key | apt-key add
       - apt-get update
       - apt-get install y-ppa-manager
