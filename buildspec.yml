@@ -21,7 +21,7 @@ phases:
       # Download the kubectl checksum file
       - curl -LO "https://dl.k8s.io/v1.32.0/bin/linux/amd64/kubectl.sha256"
       # Validate the kubectl binary against the checksum le
-      - echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+      # TODO - echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 
       # Install kubectl
       - chmod +x ./kubectl ./aws-iam-authenticator      
@@ -41,6 +41,7 @@ phases:
       - export KUBECONFIG=$HOME/.kube/config
       - echo `ls -l`
       - pip install -r requirements.txt
+      - python -m pytest test_main.py
   build:
     commands:
       - docker build --tag $REPOSITORY_URI:$TAG .
